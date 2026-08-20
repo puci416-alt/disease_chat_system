@@ -1,1 +1,0 @@
-# disease_chat_system
