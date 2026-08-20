@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>历史对话</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#f0f7fc; font-family: Arial, sans-serif; padding:20px; }
+        .container { max-width:700px; margin:0 auto; background:#fff; border-radius:20px; padding:24px 28px; }
+        .back { color:#1a7a8a; text-decoration:none; font-size:14px; }
+        h1 { color:#1a7a8a; font-size:22px; margin:6px 0 4px; }
+        .count { color:#6b8a9a; font-size:14px; margin-bottom:12px; }
+        .msg-item { padding:10px 14px; border-radius:12px; margin-bottom:8px; }
+        .msg-item.user { background:#e8f4f8; border-left:4px solid #1a7a8a; }
+        .msg-item.ai { background:#f8fafc; border-left:4px solid #2ecc71; }
+        .msg-item .role { font-size:12px; font-weight:600; color:#6b8a9a; }
+        .msg-item .content { font-size:14px; color:#1a2a3a; margin-top:2px; white-space:pre-wrap; }
+        .msg-item .time { font-size:11px; color:#9ab0c0; margin-top:4px; }
+        .empty { text-align:center; color:#9ab0c0; padding:30px 0; }
+        .clear-btn { background:#e74c6f; color:#fff; border:none; padding:8px 20px; border-radius:20px; cursor:pointer; margin-top:10px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back">← 返回</a>
+    <h1>💬 历史对话</h1>
+    <p class="count" id="count">共 0 条记录</p>
+    <div id="history-list"></div>
+    <button class="clear-btn" onclick="clearHistory()">清空记录</button>
+</div>
+<script>
+    function loadHistory() {
+        var history = JSON.parse(localStorage.getItem('chat_history') || '[]');
+        var list = document.getElementById('history-list');
+        document.getElementById('count').textContent = '共 ' + history.length + ' 条记录';
+        if (history.length === 0) {
+            list.innerHTML = '<div class="empty">暂无对话记录</div>';
+            return;
+        }
+        var html = '';
+        history.forEach(function(item) {
+            var cls = item.role === 'user' ? 'user' : 'ai';
+            var label = item.role === 'user' ? '🧑 我' : '🤖 AI助手';
+            html += '<div class="msg-item '+cls+'"><div class="role">'+label+'</div><div class="content">'+item.content+'</div><div class="time">'+item.time+'</div></div>';
+        });
+        list.innerHTML = html;
+    }
+
+    function clearHistory() {
+        if (confirm('确定清空吗？')) {
+            localStorage.removeItem('chat_history');
+            loadHistory();
+        }
+    }
+
+    loadHistory();
+</script>
+</body>
+</html>

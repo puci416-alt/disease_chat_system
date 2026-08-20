@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ drug }} - 药品详情</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#f0f7fc;font-family:Arial;padding:20px;}
+        .container{max-width:700px;margin:0 auto;background:#fff;border-radius:20px;padding:28px 32px;}
+        .back{color:#1a7a8a;text-decoration:none;font-size:14px;}
+        h1{color:#1a7a8a;font-size:24px;margin:6px 0 4px;}
+        .sub{color:#6b8a9a;font-size:14px;margin-bottom:16px;}
+        .info-section{background:#f8fafc;border-radius:14px;padding:16px 20px;margin-bottom:12px;border-left:4px solid #1a7a8a;}
+        .info-section .label{font-size:12px;color:#6b8a9a;font-weight:600;text-transform:uppercase;}
+        .info-section .value{font-size:15px;color:#1a2a3a;margin-top:4px;line-height:1.6;}
+        .info-section.usage{border-left-color:#2ecc71;}
+        .info-section.side{border-left-color:#e74c6f;}
+        .info-section.note{border-left-color:#f39c12;}
+        .btn-buy{background:#1a7a8a;color:#fff;border:none;padding:12px 40px;border-radius:30px;font-size:16px;font-weight:600;cursor:pointer;margin-top:8px;transition:0.2s;}
+        .btn-buy:hover{background:#13606e;transform:scale(1.02);}
+        .btn-buy:active{transform:scale(0.97);}
+        .price-tag{font-size:20px;font-weight:700;color:#1a7a8a;}
+        .footer{font-size:12px;color:#9ab0c0;text-align:center;margin-top:16px;border-top:1px solid rgba(0,0,0,0.04);padding-top:14px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/all_drugs" class="back">← 返回药品库</a>
+    <h1>💊 {{ drug }}</h1>
+    <p class="sub">🔍 药品信息 · 仅供参考</p>
+
+    <div class="info-section">
+        <div class="label">📖 适应症</div>
+        <div class="value">{{ indication }}</div>
+    </div>
+
+    <div class="info-section usage">
+        <div class="label">💡 用法用量</div>
+        <div class="value">{{ usage }}</div>
+    </div>
+
+    <div class="info-section side">
+        <div class="label">⚠️ 不良反应</div>
+        <div class="value">{{ side_effect }}</div>
+    </div>
+
+    <div class="info-section note">
+        <div class="label">📌 注意事项</div>
+        <div class="value">{{ note }}</div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">
+        <div><span class="price-tag">¥{{ price }}</span><span style="color:#6b8a9a;font-size:14px;"> / 盒</span></div>
+        <button class="btn-buy" onclick="goBuy()">🛒 立即购买</button>
+    </div>
+
+    <div class="footer">💡 本信息仅供参考，具体用药请遵医嘱</div>
+</div>
+
+<script>
+    function goBuy() {
+        var drug = '{{ drug }}';
+        window.location.href = '/pharmacy?drug=' + encodeURIComponent(drug);
+    }
+</script>
+</body>
+</html>

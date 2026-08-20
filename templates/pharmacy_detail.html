@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>药店详情</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#f0f7fc; font-family: Arial, sans-serif; padding:20px; }
+        .container { max-width:700px; margin:0 auto; background:#fff; border-radius:20px; padding:24px 28px; }
+        .back { color:#1a7a8a; text-decoration:none; font-size:14px; }
+        h1 { color:#1a7a8a; font-size:22px; margin:6px 0 4px; }
+        .store-info { background:#f8fafc; border-radius:14px; padding:16px 20px; margin:12px 0; border-left:4px solid #1a7a8a; }
+        .store-info .name { font-weight:700; color:#1a2a3a; }
+        .store-info .addr { color:#6b8a9a; font-size:14px; }
+        .drug-item { background:#f8fafc; border-radius:12px; padding:12px 18px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; }
+        .drug-item .name { font-weight:600; }
+        .drug-item .price { color:#1a7a8a; font-weight:700; }
+        .btn { background:#1a7a8a; color:#fff; border:none; padding:6px 18px; border-radius:20px; cursor:pointer; }
+        .btn:hover { background:#13606e; }
+        .popup { display:none; position:fixed; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,0.3); justify-content:center;align-items:center; z-index:999; }
+        .popup.show { display:flex; }
+        .popup-inner { background:#fff; border-radius:20px; padding:32px; max-width:380px; text-align:center; }
+        .popup-inner h2 { color:#1a7a8a; }
+        .popup-inner .btn-close { background:#1a7a8a; color:#fff; border:none; padding:10px 32px; border-radius:30px; cursor:pointer; margin-top:12px; }
+        .disclaimer { background:#fff3cd;color:#856404;padding:12px;border-radius:8px;margin-bottom:16px;font-size:14px;border-left:4px solid #ffeeba; }
+        .simulated-purchase { background:#e7f3ff;color:#004085;padding:10px;border-radius:6px;margin-top:12px;font-size:13px;text-align:center;border-left:4px solid #1976d2; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="disclaimer">💡 本页面为产品演示，药品购买为模拟功能，不涉及真实交易</div>
+    <a href="javascript:history.back()" class="back">← 返回</a>
+    <h1>🏪 <span id="store-name">药店</span></h1>
+    <div class="store-info">
+        <div class="name" id="store-name2">加载中...</div>
+        <div class="addr" id="store-addr">地址</div>
+    </div>
+    <div id="drug-list"></div>
+    <div class="simulated-purchase">💡 本为模拟购买，仅供功能展示</div>
+</div>
+
+<div class="popup" id="popup" onclick="if(event.target===this)closePopup()">
+    <div class="popup-inner">
+        <span style="font-size:40px;">✅</span>
+        <h2>订单已提交（模拟）</h2>
+        <p style="color:#6b8a9a;" id="order-info">药品已下单</p>
+        <p style="font-size:14px;color:#2c3e50;">预计 30-60 分钟送达</p>
+        <button class="btn-close" onclick="closePopup()">知道了</button>
+    </div>
+</div>
+
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var storeName = params.get('store') || '药店';
+    var drugName = params.get('drug') || '药品';
+
+    document.getElementById('store-name').textContent = storeName;
+    document.getElementById('store-name2').textContent = storeName;
+    document.getElementById('store-addr').textContent = '📍 广州市天河区';
+
+    var drugs = [
+        { name: drugName, price: 25 + Math.round(Math.random() * 30) },
+        { name: drugName + '（盒装）', price: 38 + Math.round(Math.random() * 20) },
+        { name: drugName + '（儿童版）', price: 18 + Math.round(Math.random() * 15) },
+    ];
+
+    var html = '<div style="font-size:14px;color:#6b8a9a;margin-bottom:10px;">💊 可购买药品</div>';
+    drugs.forEach(function(d) {
+        html += '<div class="drug-item"><div><div class="name">'+d.name+'</div></div><div><span class="price">¥'+d.price+'.00</span> <button class="btn" onclick="buy(\''+d.name+'\','+d.price+')">购买</button></div></div>';
+    });
+    document.getElementById('drug-list').innerHTML = html;
+
+    function buy(name, price) {
+        document.getElementById('order-info').textContent = '『'+name+'』已下单，费用 ¥'+price+'.00';
+        document.getElementById('popup').classList.add('show');
+    }
+    function closePopup() { document.getElementById('popup').classList.remove('show'); }
+</script>
+</body>
+</html>

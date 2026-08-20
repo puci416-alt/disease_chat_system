@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>药品库</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:#f0f7fc;font-family:Arial;padding:20px;}
+        .container{max-width:800px;margin:0 auto;background:#fff;border-radius:20px;padding:24px 28px;}
+        .back{color:#1a7a8a;text-decoration:none;font-size:14px;}
+        h1{color:#1a7a8a;font-size:22px;margin:6px 0 4px;}
+        .count{color:#6b8a9a;font-size:14px;margin-bottom:12px;}
+        .search-box{display:flex;gap:10px;margin-bottom:12px;}
+        .search-box input{flex:1;padding:10px 14px;border-radius:12px;border:1px solid #dce4ea;font-size:14px;outline:none;}
+        .search-box input:focus{border-color:#1a7a8a;}
+        .tags{display:flex;flex-wrap:wrap;gap:8px;}
+        .tags a{background:#f8fafc;color:#2c3e50;padding:6px 16px;border-radius:20px;text-decoration:none;font-size:14px;border:1px solid rgba(0,0,0,0.04);transition:0.2s;}
+        .tags a:hover{background:#edf3f8;border-color:rgba(26,122,138,0.15);color:#1a7a8a;transform:translateY(-1px);}
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back">← 返回</a>
+    <h1>💊 药品库</h1>
+    <p class="count">共 {{ drugs|length }} 种药品</p>
+    <div class="search-box">
+        <input id="search" placeholder="搜索药品..." onkeyup="filter()">
+    </div>
+    <div class="tags" id="drug-list">
+        {% for d in drugs %}
+        <a href="/drug_info?drug={{ d }}">{{ d }}</a>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    function filter() {
+        var q = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('#drug-list a').forEach(function(a) {
+            a.style.display = a.textContent.toLowerCase().includes(q) ? '' : 'none';
+        });
+    }
+</script>
+</body>
+</html>

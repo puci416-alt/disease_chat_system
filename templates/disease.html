@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ disease['疾病名称'] }} - 详情</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f0f7fc;
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .back {
+            color: #1a7a8a;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .back:hover {
+            color: #0e4a55;
+        }
+        h1 {
+            color: #1a7a8a;
+            font-size: 26px;
+            margin-top: 6px;
+        }
+        .meta {
+            color: #6b8a9a;
+            font-size: 14px;
+            margin: 6px 0 18px 0;
+        }
+        .tag {
+            display: inline-block;
+            background: rgba(26, 122, 138, 0.10);
+            color: #1a7a8a;
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+        .section {
+            background: #f8fafc;
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin: 16px 0;
+            border-left: 4px solid #1a7a8a;
+        }
+        .section h3 {
+            color: #1a7a8a;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+        .section p {
+            color: #2c3e50;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .section.treatment { border-left-color: #2ecc71; }
+        .section.drug { border-left-color: #3498db; }
+        .section.note { border-left-color: #f39c12; }
+        .section.advice { border-left-color: #9b59b6; }
+        .drug-box {
+            background: #ffffff;
+            border: 1px solid rgba(52, 152, 219, 0.12);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-top: 4px;
+        }
+        .drug-box strong {
+            color: #1a7a8a;
+            font-size: 16px;
+        }
+        .drug-box p {
+            color: #4a6a7a;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        .empty-tip {
+            color: #9ab0c0;
+            font-style: italic;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #9ab0c0;
+            text-align: center;
+            border-top: 1px solid rgba(0,0,0,0.04);
+            padding-top: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back">← 返回大屏</a>
+    <h1>📋 {{ disease['疾病名称'] }}</h1>
+    <div class="meta">
+        <span class="tag">{{ disease['科室'] or '未分类' }}</span>
+        <span style="margin-left: 12px; color:#6b8a9a;">ID: {{ disease['疾病ID'] }}</span>
+    </div>
+
+    <!-- 简介 -->
+    <div class="section">
+        <h3>📖 疾病简介</h3>
+        <p>{{ disease['简介'] }}</p>
+    </div>
+
+    <!-- 治疗手段 -->
+    <div class="section treatment">
+        <h3>💉 治疗手段</h3>
+        {% if disease['治疗手段'] and disease['治疗手段'] != '' %}
+            <p>{{ disease['治疗手段'] }}</p>
+        {% else %}
+            <p class="empty-tip">暂无数据，建议咨询医生</p>
+        {% endif %}
+    </div>
+
+    <!-- 常用药品 -->
+    <div class="section drug">
+        <h3>💊 常用药品</h3>
+        {% if disease['常用药品'] and disease['常用药品'] != '' %}
+            <div class="drug-box">
+                <strong>{{ disease['常用药品'] }}</strong>
+                <p>📌 点击药品名称可搜索更多信息</p>
+            </div>
+        {% else %}
+            <p class="empty-tip">暂无数据，建议咨询医生</p>
+        {% endif %}
+    </div>
+
+    <!-- 注意事项 -->
+    <div class="section note">
+        <h3>⚠️ 注意事项</h3>
+        {% if disease['注意事项'] and disease['注意事项'] != '' %}
+            <p>{{ disease['注意事项'] }}</p>
+        {% else %}
+            <p class="empty-tip">暂无数据</p>
+        {% endif %}
+    </div>
+
+    <!-- 就诊建议 -->
+    <div class="section advice">
+        <h3>🏥 就诊建议</h3>
+        <p>建议前往 <strong style="color:#1a7a8a;">{{ disease['科室'] or '综合科' }}</strong> 就诊，完善相关检查。</p>
+    </div>
+
+    <div class="footer">💡 本信息仅供参考，具体诊疗请咨询专业医生</div>
+</div>
+</body>
+</html>

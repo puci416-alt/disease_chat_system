@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果：{{ keyword }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f0f7fc;
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+            padding: 30px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 35px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .back {
+            color: #1a7a8a;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .back:hover { color: #0e4a55; }
+        h1 { color: #1a7a8a; font-size: 24px; }
+        .count { color: #6b8a9a; font-size: 14px; margin-bottom: 18px; }
+        .grid { display: flex; flex-wrap: wrap; gap: 10px; }
+        .card {
+            background: #f8fafc;
+            border: 1px solid rgba(0,0,0,0.04);
+            border-radius: 12px;
+            padding: 10px 20px;
+            transition: 0.2s;
+        }
+        .card:hover {
+            background: #edf3f8;
+            border-color: rgba(26, 122, 138, 0.15);
+            transform: translateY(-2px);
+        }
+        .card a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .card a:hover { color: #1a7a8a; }
+        .no-result {
+            color: #9ab0c0;
+            text-align: center;
+            padding: 40px 0;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/" class="back">← 返回大屏</a>
+    <h1>🔍 搜索“{{ keyword }}”</h1>
+    <p class="count">找到 {{ count }} 个相关疾病</p>
+    <div class="grid">
+        {% if results %}
+            {% for d in results %}
+            <div class="card">
+                <a href="/disease/{{ d }}">{{ d }}</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-result">😅 没有找到包含“{{ keyword }}”的疾病</div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
